@@ -12,8 +12,9 @@
   flex-wrap: wrap;
 }
 
-.navbar__item {
+.navbar__link {
   position: relative;
+  display: inline-block;
   color: var(--color-purple-100);
   font-weight: 500;
   font-size: 0.95rem;
@@ -22,7 +23,7 @@
   transition: color 0.2s ease;
 }
 
-.navbar__item::after {
+.navbar__link::after {
   content: "";
   position: absolute;
   left: 0;
@@ -33,20 +34,20 @@
   transition: width 0.25s ease;
 }
 
-.navbar__item:hover {
+.navbar__link:hover {
   color: var(--color-white);
 }
 
-.navbar__item:hover::after {
+.navbar__link:hover::after {
   width: 100%;
 }
 
-.navbar__item--active {
+.navbar__link--active {
   color: var(--color-white);
   font-weight: 600;
 }
 
-.navbar__item--active::after {
+.navbar__link--active::after {
   width: 100%;
 }
 
