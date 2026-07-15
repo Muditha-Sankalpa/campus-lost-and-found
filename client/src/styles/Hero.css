@@ -1,0 +1,104 @@
+.hero {
+  position: relative;
+  background: radial-gradient(circle at 50% 0%, var(--color-purple-500) 0%, var(--color-purple-900) 65%);
+  padding: var(--space-xl) var(--space-lg);
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero::before {
+  /* faint sunburst nod to the university crest, kept subtle */
+  content: "";
+  position: absolute;
+  top: -60%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 900px;
+  background: repeating-conic-gradient(
+    from 0deg,
+    rgba(201, 162, 39, 0.05) 0deg 6deg,
+    transparent 6deg 12deg
+  );
+  border-radius: 50%;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.hero__eyebrow {
+  color: var(--color-gold);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hero__title {
+  color: var(--color-white);
+  font-size: 2.4rem;
+  line-height: 1.25;
+}
+
+.hero__subtitle {
+  color: var(--color-purple-100);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  max-width: 480px;
+}
+
+.hero__actions {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.hero__btn {
+  padding: 14px 28px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.hero__btn--primary {
+  background: var(--color-gold);
+  color: var(--color-purple-900);
+  box-shadow: var(--shadow-md);
+}
+
+.hero__btn--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.hero__btn--secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--color-white);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.hero__btn--secondary:hover {
+  background: rgba(255, 255, 255, 0.18);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+  .hero {
+    padding: var(--space-lg) var(--space-sm);
+  }
+  .hero__title {
+    font-size: 1.8rem;
+  }
+}

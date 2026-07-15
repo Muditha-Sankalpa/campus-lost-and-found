@@ -1,0 +1,40 @@
+.footer {
+  background: var(--color-purple-900);
+  padding: var(--space-md);
+  display: flex;
+  justify-content: center;
+}
+
+.footer__content {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.footer__brand {
+  color: var(--color-gold);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.footer__text {
+  color: var(--color-purple-100);
+  font-size: 0.85rem;
+}
+
+.footer__divider {
+  color: var(--color-purple-500);
+}
+
+@media (max-width: 480px) {
+  .footer__content {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .footer__divider {
+    display: none;
+  }
+}
