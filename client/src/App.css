@@ -198,9 +198,15 @@ html, body, #root {
   height: 100vh; /* full viewport height */
 }
 
+/* Reserve space for the fixed footer using a CSS variable */
+:root {
+  --footer-height: 72px; /* used as default; can be overridden */
+}
+
 .app__content {
   flex: 1 1 auto;
   padding: 16px;
+  padding-bottom: calc(var(--footer-height) + 8px); /* avoid content behind fixed footer */
   overflow: auto; /* internal scrolling for content */
   -webkit-overflow-scrolling: touch;
 }
