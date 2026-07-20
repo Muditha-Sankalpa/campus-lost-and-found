@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+﻿import React, { createContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
 
@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
   const apiFetch = async (url, opts = {}) => {
     const fullUrl = url.startsWith('http') ? url : `${API_BASE}${url}`;
     const headers = { ...(opts.headers || {}) };
-    if (token) headers['Authorization'] = `Bearer ${token}`;
+    if (token) headers['Authorization'] = 'Bearer ' + token;
     if (!headers['Content-Type'] && !(opts.body instanceof FormData)) {
       headers['Content-Type'] = 'application/json';
     }

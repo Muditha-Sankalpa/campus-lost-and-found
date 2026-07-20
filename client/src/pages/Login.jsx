@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import AuthContext from "../context/AuthProvider";
+import "../styles/Auth.css";
 
 function Login() {
   const { login } = useContext(AuthContext);
@@ -20,23 +21,30 @@ function Login() {
   };
 
   return (
-    <div style={{ padding: "24px", maxWidth: 520, margin: "0 auto" }}>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit} className="form">
-        <label>
-          Email
-          <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" required />
-        </label>
-        <label>
-          Password
-          <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" required />
-        </label>
-        {error && <div className="form__error">{error}</div>}
-        <div style={{ marginTop: 12 }}>
-          <button type="submit">Login</button>
-          <Link to="/register" style={{ marginLeft: 12 }}>Register</Link>
-        </div>
-      </form>
+    <div className="auth-container">
+      <div className="auth-card">
+        <h2>Welcome back</h2>
+        <p style={{ color: 'var(--color-grey-600)', marginTop: 8 }}>Sign in to your account</p>
+
+        <form onSubmit={handleSubmit} className="auth-form">
+          <div className="form-group">
+            <label>Email</label>
+            <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" required />
+          </div>
+
+          <div className="form-group">
+            <label>Password</label>
+            <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" required />
+          </div>
+
+          {error && <div className="form__error">{error}</div>}
+
+          <div className="auth-actions">
+            <button className="btn-primary" type="submit">Sign in</button>
+            <Link to="/register" className="btn-ghost">Create account</Link>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
