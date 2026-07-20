@@ -110,3 +110,22 @@
 @media (max-width: 600px) {
   .auth-card { padding: var(--space-md); }
 }
+
+/* Responsive grid for browsing items */
+.browse-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+/* Make item cards and forms adapt within available space */
+.auth-card, .item-card {
+  max-width: 100%;
+}
+
+/* Ensure images scale responsively inside cards */
+.item-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+}

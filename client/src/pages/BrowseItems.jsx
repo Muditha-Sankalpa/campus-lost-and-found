@@ -24,7 +24,7 @@ export default function BrowseItems() {
     <div style={{ padding: 24 }}>
       <h2>Browse items</h2>
       <ItemFilter onChange={(f) => { setFilters(f); load(f); }} />
-      <div style={{ display: 'grid', gap: 12 }}>
+      <div className="browse-grid">
         {items.map(it => <ItemCard key={it._id} item={it} />)}
       </div>
     </div>
