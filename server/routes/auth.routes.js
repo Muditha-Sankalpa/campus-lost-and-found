@@ -11,6 +11,7 @@ router.post('/logout', authController.logout);
 
 // Protected
 router.get('/me', auth, authController.me);
+router.patch('/me', auth, authController.updateProfile);
 
 // Example: admin-only route (usage example for role middleware)
 // router.get('/admin-only', auth, allowRoles('admin'), (req, res) => res.json({ msg: 'admin content' }));

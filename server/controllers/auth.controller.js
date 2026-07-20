@@ -76,3 +76,19 @@ exports.me = async (req, res) => {
     return res.status(500).json({ message: 'Server error.' });
   }
 };
+
+exports.updateProfile = async (req, res) => {
+  try {
+    const updates = {};
+    const { name, profile } = req.body;
+    if (name) updates.name = name;
+    if (profile) updates.profile = profile;
+
+    const user = await User.findByIdAndUpdate(req.userId, { $set: updates }, { new: true }).select('-password');
+    if (!user) return res.status(404).json({ message: 'User not found.' });
+    return res.json({ user });
+  } catch (err) {
+    console.error('Update profile error:', err);
+    return res.status(500).json({ message: 'Server error.' });
+  }
+};
