@@ -30,7 +30,7 @@ function App() {
 
           <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-          <Route path="/browse" element={<BrowseItems />} />
+          <Route path="/browse" element={<ProtectedRoute><BrowseItems /></ProtectedRoute>} />
           <Route path="/report" element={<ProtectedRoute><ReportItem /></ProtectedRoute>} />
           <Route path="/myitems" element={<ProtectedRoute><MyItems /></ProtectedRoute>} />
 
