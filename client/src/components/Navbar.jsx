@@ -11,6 +11,8 @@ function Navbar() {
 
   const links = [
     { label: "Home", path: "/" },
+    { label: "Browse", path: "/browse" },
+    { label: "Report", path: "/report" },
     { label: "About", path: "/about" },
     { label: "Contact", path: "/contact" },
   ];
