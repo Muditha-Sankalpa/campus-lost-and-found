@@ -20,6 +20,7 @@ import ManageUsers from "./pages/admin/ManageUsers";
 import ManageCategories from "./pages/admin/ManageCategories";
 import Analytics from "./pages/admin/Analytics";
 import ActivityLogs from "./pages/admin/ActivityLogs";
+import ManageAnnouncements from "./pages/admin/ManageAnnouncements";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route index element={<AdminDashboard />} />
         <Route path="users" element={<ManageUsers />} />
         <Route path="categories" element={<ManageCategories />} />
+        <Route path="announcements" element={<ManageAnnouncements />} />
         <Route path="analytics" element={<Analytics />} />
         <Route path="activity" element={<ActivityLogs />} />
       </Route>
