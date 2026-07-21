@@ -1,0 +1,79 @@
+.ab-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-bg-alt);
+}
+
+.ab-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--color-purple-500);
+  background: var(--color-white);
+  box-shadow: var(--shadow-sm);
+}
+
+.ab-banner--info {
+  border-left-color: var(--color-purple-500);
+  background: var(--color-purple-100);
+}
+
+.ab-banner--warning {
+  border-left-color: #d59f2b;
+  background: #fdf3d8;
+}
+
+.ab-banner--urgent {
+  border-left-color: #b02525;
+  background: #fbeaea;
+}
+
+.ab-banner__content {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  flex: 1;
+}
+
+.ab-banner__icon {
+  font-size: 1.3rem;
+  line-height: 1.2;
+  flex-shrink: 0;
+}
+
+.ab-banner__title {
+  display: block;
+  font-family: var(--font-display);
+  color: var(--color-purple-900);
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.ab-banner__body {
+  color: var(--color-grey-900);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.ab-banner__close {
+  background: transparent;
+  border: none;
+  color: var(--color-grey-600);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.ab-banner__close:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--color-grey-900);
+}
