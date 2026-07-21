@@ -21,6 +21,7 @@ app.use("/api/items", require("./routes/item.routes"));
 // app.use("/api/claims", require("./routes/claim.routes"));
 // app.use("/api/moderation", require("./routes/moderation.routes"));
 // app.use("/api/admin", require("./routes/admin.routes"));
+app.use("/api/announcements", require("./routes/announcement.routes"));
 
 const connectDB = require("./config/db");
 connectDB();
