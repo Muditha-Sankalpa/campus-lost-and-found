@@ -182,3 +182,36 @@
     border-right-color: var(--border);
   }
 }
+
+/* Make the document and root occupy full height and avoid page-level scrolling
+   The main app content will scroll internally so the footer remains visible */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* prevent page scroll */
+}
+
+/* Layout: make footer stick to bottom and main content fill available space */
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* full viewport height */
+}
+
+/* Reserve space for the fixed footer using a CSS variable */
+:root {
+  --footer-height: 72px; /* used as default; can be overridden */
+}
+
+.app__content {
+  flex: 1 1 auto;
+  padding: 16px;
+  padding-bottom: calc(var(--footer-height) + 8px); /* avoid content behind fixed footer */
+  overflow: auto; /* internal scrolling for content */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Ensure footer doesn't shrink and stays at bottom */
+.footer {
+  flex-shrink: 0;
+}
