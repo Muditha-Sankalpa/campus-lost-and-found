@@ -1,22 +1,15 @@
-import React from "react";
-import ItemForm from "../components/ItemForm";
-import { createItem } from "../api/itemApi";
+import React from 'react';
+import ItemForm from '../components/ItemForm';
+import '../styles/Auth.css';
 
-const ReportItem = () => {
-  const handleSubmit = async (formData) => {
-    await createItem(formData); // requires user to be logged in (token in localStorage)
-  };
-
+export default function ReportItem() {
   return (
-    <div className="container">
-      <h2>Report a Lost/Found Item</h2>
-      <p style={{ fontSize: 13, color: "#666" }}>
-        Note: you must be logged in for this to work — the backend checks for a
-        valid token in localStorage (key: "token").
-      </p>
-      <ItemForm onSubmit={handleSubmit} />
+    <div className="auth-container">
+      <div className="auth-card">
+        <h2>Report a lost or found item</h2>
+        <p style={{ color: 'var(--color-grey-600)' }}>Provide details and upload images (optional)</p>
+        <ItemForm onSuccess={() => alert('Report submitted — it will appear once approved by moderators.')} />
+      </div>
     </div>
   );
-};
-
-export default ReportItem;
+}

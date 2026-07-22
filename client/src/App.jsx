@@ -7,10 +7,13 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Login from "./pages/Login";
-import NotFound from "./pages/NotFound";
+import Register from "./pages/Register";
+import Profile from "./pages/Profile";
+import BrowseItems from "./pages/BrowseItems";
 import ReportItem from "./pages/ReportItem";
-import BrowseItems from "./pages/BrowsItems";
 import MyItems from "./pages/MyItems";
+import NotFound from "./pages/NotFound";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -21,13 +24,19 @@ function App() {
 
       <main className="app__content">
         <Routes>
-          <Route path="/" element={<Home />} />
+          {/* Show login first - protect home and app routes */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+
+          <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route path="/browse" element={<ProtectedRoute><BrowseItems /></ProtectedRoute>} />
+          <Route path="/report" element={<ProtectedRoute><ReportItem /></ProtectedRoute>} />
+          <Route path="/myitems" element={<ProtectedRoute><MyItems /></ProtectedRoute>} />
+
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/report" element={<ReportItem />} />
-          <Route path="/browse" element={<BrowseItems />} />
-          <Route path="/my-items" element={<MyItems />} />
+
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

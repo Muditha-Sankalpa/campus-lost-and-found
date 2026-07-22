@@ -1,53 +1,22 @@
-import React from "react";
+import React, { useState } from 'react';
 
-const categories = [
-  "Electronics",
-  "Documents",
-  "Accessories",
-  "Bags",
-  "Clothing",
-  "Keys",
-  "Pets",
-  "Others",
-];
+export default function ItemFilter({ onChange }) {
+  const [q, setQ] = useState('');
+  const [category, setCategory] = useState('');
+  const [status, setStatus] = useState('');
 
-const ItemFilter = ({ filters, setFilters, onSearch }) => {
-  const handleChange = (e) => {
-    setFilters({ ...filters, [e.target.name]: e.target.value });
-  };
+  const apply = () => onChange({ q, category, status });
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        onSearch();
-      }}
-      style={{ marginBottom: 16 }}
-    >
-      <input
-        type="text"
-        name="keyword"
-        placeholder="Search title/description/location..."
-        value={filters.keyword}
-        onChange={handleChange}
-      />{" "}
-      <select name="category" value={filters.category} onChange={handleChange}>
-        <option value="">All Categories</option>
-        {categories.map((c) => (
-          <option key={c} value={c}>
-            {c}
-          </option>
-        ))}
-      </select>{" "}
-      <select name="status" value={filters.status} onChange={handleChange}>
-        <option value="">All Status</option>
+    <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 12 }}>
+      <input placeholder="Search title or description" value={q} onChange={e => setQ(e.target.value)} />
+      <input placeholder="Category" value={category} onChange={e => setCategory(e.target.value)} />
+      <select value={status} onChange={e => setStatus(e.target.value)}>
+        <option value="">Any</option>
         <option value="lost">Lost</option>
         <option value="found">Found</option>
-        <option value="recovered">Recovered</option>
-      </select>{" "}
-      <button type="submit">Search</button>
-    </form>
+      </select>
+      <button onClick={apply} className="btn-primary">Apply</button>
+    </div>
   );
-};
-
-export default ItemFilter;
+}

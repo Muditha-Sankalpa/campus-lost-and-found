@@ -1,24 +1,22 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
+const itemController = require('../controllers/item.controller');
+const auth = require('../middleware/auth.middleware');
+const allowRoles = require('../middleware/role.middleware');
+const upload = require('../middleware/upload.middleware');
 
-const {
-  createItem,
-  getItems,
-  getItemById,
-  updateItem,
-  deleteItem,
-} = require("../controllers/item.controller");
+// Public: browse approved items
+router.get('/', itemController.listItems);
+router.get('/:id', itemController.getItem);
 
-const { protect } = require("../middleware/auth");
-const upload = require("../middleware/upload");
+// Protected: create an item (images upload)
+router.post('/', auth, upload.array('images', 6), itemController.createItem);
 
-// Public routes
-router.get("/", getItems);
-router.get("/:id", getItemById);
+// Protected: user's own items
+router.get('/my/list', auth, itemController.myItems);
 
-// Private routes (require login)
-router.post("/", protect, upload.array("images", 5), createItem);
-router.put("/:id", protect, upload.array("images", 5), updateItem);
-router.delete("/:id", protect, deleteItem);
+// Update / delete
+router.patch('/:id', auth, upload.array('images', 6), itemController.updateItem);
+router.delete('/:id', auth, itemController.deleteItem);
 
 module.exports = router;

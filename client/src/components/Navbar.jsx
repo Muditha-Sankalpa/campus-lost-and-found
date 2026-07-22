@@ -1,16 +1,26 @@
-import { NavLink } from "react-router-dom";
 import "../styles/Navbar.css";
 
+import { NavLink, useNavigate } from "react-router-dom";
+import "../styles/Navbar.css";
+import { useContext } from "react";
+import AuthContext from "../context/AuthProvider";
+
 function Navbar() {
+  const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const links = [
     { label: "Home", path: "/" },
-    { label: "About", path: "/about" },
-    { label: "Contact", path: "/contact" },
     { label: "Browse", path: "/browse" },
     { label: "Report", path: "/report" },
-    { label: "My Items", path: "/my-items" },
-    { label: "Login", path: "/login" },
+    { label: "About", path: "/about" },
+    { label: "Contact", path: "/contact" },
   ];
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/login');
+  };
 
   return (
     <nav className="navbar">
@@ -28,6 +38,28 @@ function Navbar() {
             </NavLink>
           </li>
         ))}
+
+        {!user && (
+          <li className="navbar__item">
+            <NavLink to="/login" className="navbar__link">Login</NavLink>
+          </li>
+        )}
+
+        {user && (
+          <>
+            <li className="navbar__item">
+              <NavLink to="/profile" className="navbar__link">Profile</NavLink>
+            </li>
+            {user.role === 'admin' && (
+              <li className="navbar__item">
+                <NavLink to="/admin" className="navbar__link">Admin</NavLink>
+              </li>
+            )}
+            <li className="navbar__item">
+              <button onClick={handleLogout} className="navbar__link navbar__link--button">Logout</button>
+            </li>
+          </>
+        )}
       </ul>
     </nav>
   );
