@@ -6,6 +6,9 @@ function Navbar() {
     { label: "Home", path: "/" },
     { label: "About", path: "/about" },
     { label: "Contact", path: "/contact" },
+    { label: "Browse", path: "/browse" },
+    { label: "Report", path: "/report" },
+    { label: "My Items", path: "/my-items" },
     { label: "Login", path: "/login" },
   ];
 

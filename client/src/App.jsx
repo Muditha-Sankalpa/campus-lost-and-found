@@ -8,6 +8,9 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
+import ReportItem from "./pages/ReportItem";
+import BrowseItems from "./pages/BrowsItems";
+import MyItems from "./pages/MyItems";
 
 function App() {
   return (
@@ -22,6 +25,9 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/report" element={<ReportItem />} />
+          <Route path="/browse" element={<BrowseItems />} />
+          <Route path="/my-items" element={<MyItems />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

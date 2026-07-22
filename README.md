@@ -65,10 +65,10 @@ git checkout dev
 
 ### Backend setup
 
-```bash
+```powershell
 cd server
 npm install
-cp .env.example .env    # fill in your Mongo URI and JWT secret
+Copy-Item .env.example .env    # fill in your Mongo URI and JWT secret
 npm run dev
 ```
 
@@ -76,10 +76,10 @@ Server runs on `http://localhost:5000`.
 
 ### Frontend setup
 
-```bash
+```powershell
 cd client
 npm install
-cp .env.example .env    # set VITE_API_URL
+Copy-Item .env.example .env    # set VITE_API_URL
 npm run dev
 ```
 
