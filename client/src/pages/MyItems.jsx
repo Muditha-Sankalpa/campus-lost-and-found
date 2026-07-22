@@ -1,84 +1,28 @@
-import React, { useState, useEffect } from "react";
-import ItemCard from "../components/ItemCard";
-import ItemForm from "../components/ItemForm";
-import { fetchMyItems, updateItem, deleteItem } from "../api/itemApi";
+import React, { useContext, useEffect, useState } from 'react';
+import AuthContext from '../context/AuthProvider';
+import ItemCard from '../components/ItemCard';
 
-const MyItems = () => {
+export default function MyItems() {
+  const { token } = useContext(AuthContext);
   const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [editingItem, setEditingItem] = useState(null);
 
-  const loadItems = async () => {
-    setLoading(true);
-    setError("");
-    try {
-      const data = await fetchMyItems(); // requires token in localStorage
-      setItems(data.items);
-    } catch (err) {
-      setError(
-        err?.response?.status === 401
-          ? "You need to be logged in to see your reports."
-          : "Could not reach the backend. Is the server running?"
-      );
-    } finally {
-      setLoading(false);
-    }
+  const load = async () => {
+    const res = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000') + '/api/items/my/list', {
+      headers: token ? { Authorization: 'Bearer ' + token } : {}
+    });
+    const data = await res.json();
+    if (res.ok) setItems(data.items || []);
   };
 
-  useEffect(() => {
-    loadItems();
-  }, []);
-
-  const handleDelete = async (id) => {
-    if (!window.confirm("Delete this report?")) return;
-    try {
-      await deleteItem(id);
-      loadItems();
-    } catch (err) {
-      alert(err?.response?.data?.message || "Failed to delete");
-    }
-  };
-
-  const handleUpdate = async (formData, id) => {
-    await updateItem(id, formData);
-    setEditingItem(null);
-    loadItems();
-  };
+  useEffect(() => { load(); }, []);
 
   return (
-    <div className="container">
-      <h2>My Reported Items</h2>
-
-      {loading && <p>Loading...</p>}
-      {error && <p className="error-text">{error}</p>}
-      {!loading && !error && items.length === 0 && <p>You haven't reported any items yet.</p>}
-
-      {editingItem && (
-        <div>
-          <h3>Editing: {editingItem.title}</h3>
-          <ItemForm
-            initialItem={editingItem}
-            onSubmit={handleUpdate}
-            onCancel={() => setEditingItem(null)}
-          />
-        </div>
-      )}
-
-      <div className="grid">
-        {items.map((item) => (
-          <ItemCard
-            key={item._id}
-            item={item}
-            showModeration
-            showActions
-            onEdit={setEditingItem}
-            onDelete={handleDelete}
-          />
-        ))}
+    <div style={{ padding: 24 }}>
+      <h2>My reports</h2>
+      {items.length === 0 && <p style={{ color: 'var(--color-grey-600)' }}>You haven't reported any items yet.</p>}
+      <div style={{ display: 'grid', gap: 12 }}>
+        {items.map(it => <ItemCard key={it._id} item={it} />)}
       </div>
     </div>
   );
-};
-
-export default MyItems;
+}
