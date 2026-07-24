@@ -1,25 +1,29 @@
-import "../styles/Navbar.css";
-
 import { NavLink, useNavigate } from "react-router-dom";
-import "../styles/Navbar.css";
 import { useContext } from "react";
-import AuthContext from "../context/AuthProvider";
+import AuthContext from "../context/AuthContext";
+import "../styles/Navbar.css";
 
 function Navbar() {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const links = [
+  const publicLinks = [
     { label: "Home", path: "/" },
-    { label: "Browse", path: "/browse" },
-    { label: "Report", path: "/report" },
     { label: "About", path: "/about" },
     { label: "Contact", path: "/contact" },
   ];
 
+  const authedLinks = [
+    { label: "Browse", path: "/browse" },
+    { label: "Report", path: "/report" },
+    { label: "My Items", path: "/myitems" },
+  ];
+
+  const links = user ? [...publicLinks, ...authedLinks] : publicLinks;
+
   const handleLogout = async () => {
     await logout();
-    navigate('/login');
+    navigate("/login", { replace: true });
   };
 
   return (
@@ -39,26 +43,49 @@ function Navbar() {
           </li>
         ))}
 
-        {!user && (
-          <li className="navbar__item">
-            <NavLink to="/login" className="navbar__link">Login</NavLink>
-          </li>
-        )}
-
-        {user && (
+        {user ? (
           <>
             <li className="navbar__item">
-              <NavLink to="/profile" className="navbar__link">Profile</NavLink>
+              <NavLink
+                to="/profile"
+                className={({ isActive }) =>
+                  isActive ? "navbar__link navbar__link--active" : "navbar__link"
+                }
+              >
+                Profile
+              </NavLink>
             </li>
-            {user.role === 'admin' && (
+
+            {user.role === "admin" && (
               <li className="navbar__item">
-                <NavLink to="/admin" className="navbar__link">Admin</NavLink>
+                <NavLink
+                  to="/admin"
+                  className={({ isActive }) =>
+                    isActive ? "navbar__link navbar__link--active" : "navbar__link"
+                  }
+                >
+                  Admin
+                </NavLink>
               </li>
             )}
+
             <li className="navbar__item">
-              <button onClick={handleLogout} className="navbar__link navbar__link--button">Logout</button>
+              <button className="navbar__logout" onClick={handleLogout}>
+                Log out
+              </button>
             </li>
           </>
+        ) : (
+          <li className="navbar__item">
+            <NavLink
+              to="/login"
+              className={({ isActive }) =>
+                isActive ? "navbar__link navbar__link--active" : "navbar__link"
+              }
+            >
+              Login
+            </NavLink>
+          </li>
         )}
       </ul>
     </nav>
