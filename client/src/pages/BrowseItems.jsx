@@ -40,7 +40,7 @@ export default function BrowseItems() {
           <div className="empty-state">No items match the current filters yet.</div>
         ) : (
           <div className="browse-grid">
-            {items.map((item) => <ItemCard key={item._id} item={item} />)}
+            {items.map((item) => <ItemCard key={item._id} item={item} onClaim={item => item} />)}
           </div>
         )}
       </div>

@@ -124,6 +124,44 @@ exports.myItems = async (req, res) => {
   }
 };
 
+exports.submitClaim = async (req, res) => {
+  try {
+    const item = await Item.findById(req.params.id);
+    if (!item) return res.status(404).json({ message: 'Item not found' });
+
+    const { claimDescription, claimProof, claimContactNumber } = req.body;
+    if (!claimDescription || !claimProof || !claimContactNumber) {
+      return res.status(400).json({ message: 'Please provide a description, proof, and contact number.' });
+    }
+
+    const claimPhoto = req.file ? `/uploads/${req.file.filename}` : undefined;
+
+    const updated = await Item.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          claimStatus: 'pending',
+          claimDescription,
+          claimProof,
+          claimPhoto: claimPhoto || item.claimPhoto,
+          claimContactNumber,
+          claimRequestedBy: req.userId,
+          claimRequestedAt: new Date(),
+          claimReviewedBy: null,
+          claimReviewedAt: null,
+          claimReviewReason: null,
+        }
+      },
+      { new: true }
+    ).populate('reportedBy', 'name studentId email').populate('claimRequestedBy', 'name studentId email');
+
+    return res.json({ item: updated });
+  } catch (err) {
+    console.error('Submit claim error:', err);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
 exports.updateItem = async (req, res) => {
   try {
     const item = await Item.findById(req.params.id);

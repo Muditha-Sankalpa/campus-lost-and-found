@@ -18,9 +18,7 @@ app.get("/", (req, res) => {
 // ---- Routes ----
 app.use("/api/auth", require("./routes/auth.routes"));
 app.use("/api/items", require("./routes/item.routes"));
-// app.use("/api/claims", require("./routes/claim.routes"));
-// app.use("/api/moderation", require("./routes/moderation.routes"));
-// app.use("/api/admin", require("./routes/admin.routes"));
+app.use("/api/admin", require("./routes/admin.routes"));
 
 const connectDB = require("./config/db");
 

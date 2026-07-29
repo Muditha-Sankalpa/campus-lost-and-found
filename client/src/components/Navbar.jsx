@@ -50,9 +50,9 @@ function Navbar() {
             <li className="navbar__item">
               <NavLink to="/profile" className="navbar__link">Profile</NavLink>
             </li>
-            {user.role === 'admin' && (
+            {(user.role === 'moderator' || user.role === 'admin') && (
               <li className="navbar__item">
-                <NavLink to="/admin" className="navbar__link">Admin</NavLink>
+                <NavLink to="/moderator" className="navbar__link">Moderator</NavLink>
               </li>
             )}
             <li className="navbar__item">

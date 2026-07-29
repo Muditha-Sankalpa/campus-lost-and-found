@@ -12,6 +12,7 @@ router.get('/:id', itemController.getItem);
 
 // Protected: create an item (images upload)
 router.post('/', auth, upload.array('images', 6), itemController.createItem);
+router.post('/:id/claim', auth, upload.single('claimPhoto'), itemController.submitClaim);
 
 // Update / delete
 router.put('/:id', auth, upload.array('images', 6), itemController.updateItem);
