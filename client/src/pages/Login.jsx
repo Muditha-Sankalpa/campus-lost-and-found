@@ -8,11 +8,15 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null);
+    setIsSubmitting(true);
     const res = await login({ email, password });
+    setIsSubmitting(false);
     if (res.ok) {
       navigate('/');
     } else {
@@ -40,7 +44,7 @@ function Login() {
           {error && <div className="form__error">{error}</div>}
 
           <div className="auth-actions">
-            <button className="btn-primary" type="submit">Sign in</button>
+            <button className="btn-primary" type="submit" disabled={isSubmitting}>{isSubmitting ? 'Signing in...' : 'Sign in'}</button>
             <Link to="/register" className="btn-ghost">Create account</Link>
           </div>
         </form>

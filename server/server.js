@@ -23,10 +23,12 @@ app.use("/api/items", require("./routes/item.routes"));
 // app.use("/api/admin", require("./routes/admin.routes"));
 
 const connectDB = require("./config/db");
-connectDB();
 
-const PORT = process.env.PORT || 5000;
+(async () => {
+  await connectDB();
 
-app.listen(PORT, () => {
-  console.log(`🚀 UniFind Server Started Successfully on port ${PORT}`);
-});
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`🚀 UniFind Server Started Successfully on port ${PORT}`);
+  });
+})();
