@@ -1,0 +1,75 @@
+/* ============================================
+   theme.css — UniFind Shared Design Tokens
+   Palette inspired by University of Colombo's
+   official Purple & Grey, on a white base.
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* --- Core palette --- */
+  --color-white: #ffffff;
+  --color-bg: #ffffff;
+  --color-bg-alt: #f6f5f8;          /* soft grey-purple tint for section backgrounds */
+
+  --color-purple-900: #2e1148;      /* deepest — headers, footer */
+  --color-purple-700: #4b1e73;      /* UoC primary purple */
+  --color-purple-500: #6b3aa0;      /* mid — buttons, links */
+  --color-purple-300: #a97fd1;      /* light accent, hover tints */
+  --color-purple-100: #ece3f5;      /* pale backgrounds, badges */
+
+  --color-grey-900: #232323;        /* body text */
+  --color-grey-600: #6b6b6b;        /* secondary text */
+  --color-grey-300: #d8d6db;        /* borders, dividers */
+  --color-grey-100: #f2f1f3;        /* subtle surfaces */
+
+  --color-gold: #c9a227;            /* crest-inspired accent, used sparingly */
+
+  /* --- Typography --- */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* --- Elevation & radius --- */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --shadow-sm: 0 2px 8px rgba(46, 17, 72, 0.08);
+  --shadow-md: 0 8px 24px rgba(46, 17, 72, 0.14);
+  --shadow-lg: 0 16px 40px rgba(46, 17, 72, 0.18);
+
+  /* --- Spacing scale --- */
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 40px;
+  --space-xl: 64px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-grey-900);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  color: var(--color-purple-900);
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+  border: none;
+}
