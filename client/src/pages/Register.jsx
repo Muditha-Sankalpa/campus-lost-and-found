@@ -10,11 +10,22 @@ function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null);
+
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters long.');
+      return;
+    }
+
+    setIsSubmitting(true);
     const res = await register({ name, studentId, email, password });
+    setIsSubmitting(false);
+
     if (res.ok) {
       navigate('/');
     } else {
@@ -52,7 +63,7 @@ function Register() {
           {error && <div className="form__error">{error}</div>}
 
           <div className="auth-actions">
-            <button className="btn-primary" type="submit">Create account</button>
+            <button className="btn-primary" type="submit" disabled={isSubmitting}>{isSubmitting ? 'Creating account...' : 'Create account'}</button>
           </div>
         </form>
       </div>

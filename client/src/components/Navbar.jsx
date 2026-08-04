@@ -19,7 +19,13 @@ function Navbar() {
     { label: "My Items", path: "/myitems" },
   ];
 
-  const links = user ? [...publicLinks, ...authedLinks] : publicLinks;
+  const isModerator = user?.role === "moderator";
+
+  const links = !user
+    ? publicLinks
+    : isModerator
+      ? [{ label: "Dashboard", path: "/" }]
+      : [...publicLinks, ...authedLinks];
 
   const handleLogout = async () => {
     await logout();
@@ -55,6 +61,11 @@ function Navbar() {
                 Profile
               </NavLink>
             </li>
+            {user.role === "admin" && (
+              <li className="navbar__item">
+                <NavLink to="/moderator" className="navbar__link">Moderator</NavLink>
+              </li>
+            )}
 
             {user.role === "admin" && (
               <li className="navbar__item">

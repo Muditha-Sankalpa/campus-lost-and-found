@@ -1,17 +1,41 @@
 /* Auth form styles */
 .auth-container {
+  position: relative;
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--space-lg);
+  padding: var(--space-xl) var(--space-lg);
+  background: radial-gradient(circle at 50% 0%, var(--color-purple-500) 0%, var(--color-purple-900) 65%);
+  overflow: hidden;
+}
+
+.auth-container::before {
+  /* faint sunburst nod to the university crest, echoing the Hero section */
+  content: "";
+  position: absolute;
+  top: -60%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 900px;
+  background: repeating-conic-gradient(
+    from 0deg,
+    rgba(201, 162, 39, 0.05) 0deg 6deg,
+    transparent 6deg 12deg
+  );
+  border-radius: 50%;
+  pointer-events: none;
 }
 
 .auth-card {
+  position: relative;
+  z-index: 1;
   width: 100%;
   max-width: 520px;
   background: var(--color-white);
   border-radius: var(--radius-md);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-lg);
   padding: var(--space-lg);
 }
 
@@ -39,7 +63,8 @@
 }
 
 .form-group input,
-.form-group textarea {
+.form-group textarea,
+.form-group select {
   padding: 10px 12px;
   border-radius: 10px;
   border: 1px solid var(--color-grey-300);
@@ -48,7 +73,8 @@
 }
 
 .form-group input:focus,
-.form-group textarea:focus {
+.form-group textarea:focus,
+.form-group select:focus {
   box-shadow: 0 4px 12px rgba(107, 58, 160, 0.08);
   border-color: var(--color-purple-300);
 }
@@ -77,6 +103,8 @@
   border-radius: 10px;
   font-weight: 600;
   box-shadow: var(--shadow-sm);
+  border: none;
+  cursor: pointer;
 }
 
 .btn-ghost {
@@ -84,6 +112,17 @@
   color: var(--color-purple-700);
   padding: 8px 12px;
   border-radius: 8px;
+  border: 1px solid var(--color-purple-200);
+  cursor: pointer;
+}
+
+.btn-danger {
+  background: #fff1f2;
+  color: #be123c;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #fecdd3;
+  cursor: pointer;
 }
 
 .profile-header {
@@ -107,25 +146,197 @@
 
 .profile-meta p { margin: 0; color: var(--color-grey-600); }
 
-@media (max-width: 600px) {
-  .auth-card { padding: var(--space-md); }
+.page-shell {
+  padding: 24px;
 }
 
-/* Responsive grid for browsing items */
+.panel {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.panel--wide {
+  max-width: 1100px;
+}
+
+.panel__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.panel__header p {
+  color: var(--color-grey-600);
+  margin: 4px 0 0;
+}
+
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.filter-bar input,
+.filter-bar select {
+  min-width: 160px;
+  flex: 1 1 160px;
+}
+
+.pill-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.pill {
+  border: 1px solid var(--color-grey-300);
+  background: white;
+  border-radius: 999px;
+  padding: 7px 12px;
+  cursor: pointer;
+  color: var(--color-grey-700);
+}
+
+.pill--active {
+  background: var(--color-purple-100);
+  border-color: var(--color-purple-400);
+  color: var(--color-purple-800);
+}
+
 .browse-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 12px;
 }
 
-/* Make item cards and forms adapt within available space */
-.auth-card, .item-card {
-  max-width: 100%;
+.item-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-grey-100);
+  border-radius: 14px;
+  background: white;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
 }
 
-/* Ensure images scale responsively inside cards */
-.item-card img {
+.item-card__image {
   width: 100%;
-  height: auto;
-  display: block;
+  height: 140px;
+  background: var(--color-grey-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.item-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.item-card__placeholder {
+  color: var(--color-grey-600);
+}
+
+.item-card__content {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.item-card__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.item-card__header h3 {
+  margin: 0 0 6px;
+}
+
+.item-card__header p {
+  margin: 0;
+  color: var(--color-grey-600);
+  font-size: 0.95rem;
+}
+
+.item-card__badges {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.status-pill {
+  font-size: 0.78rem;
+  padding: 4px 8px;
+  border-radius: 999px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.status-pill--lost {
+  background: #f5e7ff;
+  color: var(--color-purple-800);
+}
+
+.status-pill--found {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.status-pill--recovered {
+  background: #ecfdf3;
+  color: #166534;
+}
+
+.status-pill--pending {
+  background: #fff7ed;
+  color: #c2410c;
+}
+
+.status-pill--approved {
+  background: #ecfdf3;
+  color: #166534;
+}
+
+.status-pill--rejected {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  color: var(--color-grey-600);
+  font-size: 0.9rem;
+}
+
+.item-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.empty-state {
+  color: var(--color-grey-600);
+  padding: 14px 0;
+}
+
+@media (max-width: 600px) {
+  .auth-card { padding: var(--space-md); }
+  .page-shell { padding: 12px; }
+  .panel { padding: 16px; }
+  .panel__header { flex-direction: column; align-items: flex-start; }
+  .item-card__header { flex-direction: column; }
 }

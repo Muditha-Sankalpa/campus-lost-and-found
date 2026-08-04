@@ -10,12 +10,15 @@ export default function ItemForm({ onSuccess }) {
   const [status, setStatus] = useState('lost');
   const [images, setImages] = useState([]);
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
-  const handleFiles = (e) => setImages(Array.from(e.target.files));
+  const handleFiles = (event) => setImages(Array.from(event.target.files));
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     setError(null);
+    setSuccess(null);
+
     try {
       const form = new FormData();
       form.append('title', title);
@@ -23,7 +26,7 @@ export default function ItemForm({ onSuccess }) {
       form.append('category', category);
       form.append('location', location);
       form.append('status', status);
-      images.forEach((f) => form.append('images', f));
+      images.forEach((file) => form.append('images', file));
 
       const res = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000') + '/api/items', {
         method: 'POST',
@@ -32,8 +35,14 @@ export default function ItemForm({ onSuccess }) {
       });
       const data = await res.json();
       if (res.ok) {
+        setSuccess('Your report has been submitted and is waiting for moderation.');
         onSuccess && onSuccess(data.item);
-        setTitle(''); setDescription(''); setCategory(''); setLocation(''); setImages([]);
+        setTitle('');
+        setDescription('');
+        setCategory('');
+        setLocation('');
+        setStatus('lost');
+        setImages([]);
       } else {
         setError(data.message || 'Upload failed');
       }
@@ -44,26 +53,26 @@ export default function ItemForm({ onSuccess }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="auth-form" style={{ gap: 10 }}>
+    <form onSubmit={handleSubmit} className="auth-form">
       <div className="form-group">
         <label>Title</label>
-        <input value={title} onChange={(e) => setTitle(e.target.value)} required />
+        <input value={title} onChange={(event) => setTitle(event.target.value)} required />
       </div>
       <div className="form-group">
         <label>Description</label>
-        <textarea value={description} onChange={(e) => setDescription(e.target.value)} required />
+        <textarea value={description} onChange={(event) => setDescription(event.target.value)} required rows={4} />
       </div>
       <div className="form-group">
         <label>Category</label>
-        <input value={category} onChange={(e) => setCategory(e.target.value)} />
+        <input value={category} onChange={(event) => setCategory(event.target.value)} placeholder="e.g. ID Card, Wallet" />
       </div>
       <div className="form-group">
         <label>Location</label>
-        <input value={location} onChange={(e) => setLocation(e.target.value)} />
+        <input value={location} onChange={(event) => setLocation(event.target.value)} placeholder="e.g. Library, Sports Centre" />
       </div>
       <div className="form-group">
         <label>Status</label>
-        <select value={status} onChange={e => setStatus(e.target.value)}>
+        <select value={status} onChange={(event) => setStatus(event.target.value)}>
           <option value="lost">Lost</option>
           <option value="found">Found</option>
         </select>
@@ -73,6 +82,7 @@ export default function ItemForm({ onSuccess }) {
         <input type="file" multiple accept="image/*" onChange={handleFiles} />
       </div>
       {error && <div className="form__error">{error}</div>}
+      {success && <div className="form__message">{success}</div>}
       <div className="auth-actions">
         <button className="btn-primary" type="submit">Submit report</button>
       </div>

@@ -9,6 +9,7 @@ import Profile from "./pages/Profile";
 import BrowseItems from "./pages/BrowseItems";
 import ReportItem from "./pages/ReportItem";
 import MyItems from "./pages/MyItems";
+import ModeratorDashboard from "./pages/ModeratorDashboard";
 import NotFound from "./pages/NotFound";
 
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -45,6 +46,7 @@ function App() {
         <Route path="/browse" element={<ProtectedRoute><BrowseItems /></ProtectedRoute>} />
         <Route path="/report" element={<ProtectedRoute><ReportItem /></ProtectedRoute>} />
         <Route path="/myitems" element={<ProtectedRoute><MyItems /></ProtectedRoute>} />
+        <Route path="/moderator" element={<ProtectedRoute allowedRoles={['moderator', 'admin']}><ModeratorDashboard /></ProtectedRoute>} />
 
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
