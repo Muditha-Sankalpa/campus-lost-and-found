@@ -8,6 +8,8 @@ const UserSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
     password: { type: String, required: true },
     role: { type: String, enum: ['student', 'moderator', 'admin'], default: 'student' },
+    isSuspended: { type: Boolean, default: false },
+    suspendedAt: { type: Date, default: null },
     profile: {
       avatarUrl: { type: String },
       bio: { type: String }

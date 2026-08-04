@@ -18,6 +18,20 @@ module.exports = async (req, res, next) => {
     req.userId = decoded.id;
     req.user = { id: decoded.id, role: decoded.role };
 
+
+    // Fetch fresh user data so suspended accounts can't keep operating with a valid token
+    const user = await User.findById(decoded.id).select('-password');
+    if (!user) {
+      return res.status(401).json({ message: 'User not found.' });
+    }
+
+    if (user.isSuspended) {
+      return res.status(403).json({ message: 'Your account has been suspended.' });
+    }
+
+    req.userId = user._id;
+    req.user = { id: user._id, role: user.role };
+
     next();
   } catch (err) {
     console.error('Auth middleware error:', err);
