@@ -11,6 +11,7 @@ import ReportItem from "./pages/ReportItem";
 import MyItems from "./pages/MyItems";
 import ModeratorDashboard from "./pages/ModeratorDashboard";
 import NotFound from "./pages/NotFound";
+import ManageMessages from "./pages/admin/ManageMessages";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicLayout from "./components/PublicLayout";
@@ -31,6 +32,7 @@ function App() {
         <Route index element={<AdminDashboard />} />
         <Route path="users" element={<ManageUsers />} />
         <Route path="categories" element={<ManageCategories />} />
+        <Route path="messages" element={<ManageMessages />} />
         <Route path="announcements" element={<ManageAnnouncements />} />
         <Route path="analytics" element={<Analytics />} />
         <Route path="activity" element={<ActivityLogs />} />
