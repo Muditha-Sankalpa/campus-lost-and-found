@@ -13,7 +13,7 @@ export default function ModeratorDashboard() {
 
   const loadDashboard = async () => {
     setLoading(true);
-    const res = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000') + '/api/admin/dashboard', {
+    const res = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000') + '/api/admin/moderator/dashboard', {
       headers: token ? { Authorization: 'Bearer ' + token } : {}
     });
     const data = await res.json();
@@ -78,28 +78,34 @@ export default function ModeratorDashboard() {
         {kind === 'claim' && item.claimDescription && <p><strong>Claim:</strong> {item.claimDescription}</p>}
         {kind === 'claim' && item.claimProof && <p><strong>Proof:</strong> {item.claimProof}</p>}
         {kind === 'claim' && item.claimContactNumber && <p><strong>Contact:</strong> {item.claimContactNumber}</p>}
-        <div className="form-group">
-          <label>Reason</label>
-          <textarea
-            rows={3}
-            value={reviewReasons[item._id] || ''}
-            onChange={(event) => setReviewReasons((prev) => ({ ...prev, [item._id]: event.target.value }))}
-            placeholder="Optional note for the review"
-          />
-        </div>
-        <div className="item-actions">
-          {kind === 'item' ? (
-            <>
-              <button className="btn-primary" type="button" onClick={() => actOnItem(item._id, 'approve')}>Approve</button>
-              <button className="btn-danger" type="button" onClick={() => actOnItem(item._id, 'reject')}>Reject</button>
-            </>
-          ) : (
-            <>
-              <button className="btn-primary" type="button" onClick={() => actOnClaim(item._id, 'approve')}>Approve Claim</button>
-              <button className="btn-danger" type="button" onClick={() => actOnClaim(item._id, 'reject')}>Reject Claim</button>
-            </>
-          )}
-        </div>
+        {kind === 'approved' ? (
+          <span className="pill pill--active">Approved</span>
+        ) : (
+          <>
+            <div className="form-group">
+              <label>Reason</label>
+              <textarea
+                rows={3}
+                value={reviewReasons[item._id] || ''}
+                onChange={(event) => setReviewReasons((prev) => ({ ...prev, [item._id]: event.target.value }))}
+                placeholder="Optional note for the review"
+              />
+            </div>
+            <div className="item-actions">
+              {kind === 'item' ? (
+                <>
+                  <button className="btn-primary" type="button" onClick={() => actOnItem(item._id, 'approve')}>Approve</button>
+                  <button className="btn-danger" type="button" onClick={() => actOnItem(item._id, 'reject')}>Reject</button>
+                </>
+              ) : (
+                <>
+                  <button className="btn-primary" type="button" onClick={() => actOnClaim(item._id, 'approve')}>Approve Claim</button>
+                  <button className="btn-danger" type="button" onClick={() => actOnClaim(item._id, 'reject')}>Reject Claim</button>
+                </>
+              )}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
@@ -119,6 +125,7 @@ export default function ModeratorDashboard() {
         <div className="pill-group">
           <span className="pill pill--active">Pending Items</span>
           <span className="pill pill--active">Pending Claims</span>
+          <span className="pill pill--active">Approved Items</span>
           <span className="pill pill--active">Rejected Reports</span>
           <span className="pill pill--active">Statistics</span>
         </div>
@@ -143,6 +150,11 @@ export default function ModeratorDashboard() {
           <h3>Pending Claims</h3>
         </div>
         {dashboard.pendingClaims.length === 0 ? <div className="empty-state">No pending claims.</div> : <div className="browse-grid">{dashboard.pendingClaims.map((item) => renderCard(item, 'claim'))}</div>}
+
+        <div className="panel__header">
+          <h3>Approved Items</h3>
+        </div>
+        {dashboard.approvedItems.length === 0 ? <div className="empty-state">No approved items yet.</div> : <div className="browse-grid">{dashboard.approvedItems.map((item) => renderCard(item, 'approved'))}</div>}
 
         <div className="panel__header">
           <h3>Rejected Reports</h3>

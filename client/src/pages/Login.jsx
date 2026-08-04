@@ -29,11 +29,6 @@ function Login() {
     setIsSubmitting(true);
     const res = await login({ email, password });
     setIsSubmitting(false);
-    if (res.ok) {
-      navigate('/');
-    } else {
-      setError(res.message || 'Login failed');
-    const res = await login({ email, password });
     if (!res.ok) {
       setError(res.message || "Login failed");
     }
@@ -74,12 +69,6 @@ function Login() {
           <div className="auth-actions">
             <button className="btn-primary" type="submit" disabled={isSubmitting}>{isSubmitting ? 'Signing in...' : 'Sign in'}</button>
             <Link to="/register" className="btn-ghost">Create account</Link>
-            <button className="btn-primary" type="submit">
-              Sign in
-            </button>
-            <Link to="/register" className="btn-ghost">
-              Create account
-            </Link>
           </div>
         </form>
       </div>

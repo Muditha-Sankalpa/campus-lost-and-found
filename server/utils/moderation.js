@@ -2,6 +2,7 @@ exports.buildModeratorDashboardSummary = (payload = {}) => ({
   pendingItems: payload.pendingItems || [],
   pendingClaims: payload.pendingClaims || [],
   rejectedReports: payload.rejectedReports || [],
+  approvedItems: payload.approvedItems || [],
   stats: payload.stats || {
     totalItems: 0,
     pendingItems: 0,
