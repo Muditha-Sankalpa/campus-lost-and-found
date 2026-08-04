@@ -40,7 +40,15 @@ export default function BrowseItems() {
           <div className="empty-state">No items match the current filters yet.</div>
         ) : (
           <div className="browse-grid">
-            {items.map((item) => <ItemCard key={item._id} item={item} onClaim={item => item} />)}
+            {items.map((item) => (
+              <ItemCard
+                key={item._id}
+                item={item}
+                onClaim={(itemId, updatedItem) =>
+                  setItems((prev) => prev.map((i) => (i._id === itemId ? updatedItem : i)))
+                }
+              />
+            ))}
           </div>
         )}
       </div>

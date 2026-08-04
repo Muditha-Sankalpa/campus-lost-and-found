@@ -8,6 +8,7 @@ const upload = require('../middleware/upload.middleware');
 router.get('/search', itemController.searchItems);
 router.get('/', itemController.listItems);
 router.get('/my/list', auth, itemController.myItems);
+router.get('/my/claims', auth, itemController.myClaims);
 router.get('/:id', itemController.getItem);
 
 // Protected: create an item (images upload)

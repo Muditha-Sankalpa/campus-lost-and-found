@@ -2,6 +2,8 @@ import React, { useContext, useState } from 'react';
 import AuthContext from '../context/AuthProvider';
 import '../styles/Auth.css';
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+
 export default function ItemCard({ item, onRecover, onDelete, onClaim }) {
   const { token } = useContext(AuthContext);
   const [showClaimForm, setShowClaimForm] = useState(false);
@@ -49,7 +51,7 @@ export default function ItemCard({ item, onRecover, onDelete, onClaim }) {
     <div className="item-card">
       <div className="item-card__image">
         {item.images && item.images[0] ? (
-          <img src={item.images[0]} alt={item.title} />
+          <img src={`${API_BASE}${item.images[0]}`} alt={item.title} />
         ) : (
           <div className="item-card__placeholder">No image</div>
         )}
@@ -63,8 +65,16 @@ export default function ItemCard({ item, onRecover, onDelete, onClaim }) {
           <div className="item-card__badges">
             <span className={`status-pill ${item.status === 'recovered' ? 'status-pill--recovered' : item.status === 'found' ? 'status-pill--found' : 'status-pill--lost'}`}>{statusLabel}</span>
             <span className={`status-pill ${item.moderationStatus === 'approved' ? 'status-pill--approved' : item.moderationStatus === 'rejected' ? 'status-pill--rejected' : 'status-pill--pending'}`}>{moderationLabel}</span>
+            {item.claimStatus === 'pending' && <span className="status-pill status-pill--requested">Requested to Claim</span>}
           </div>
         </div>
+
+        {onRecover && item.claimStatus === 'approved' && (
+          <div className="item-card__claimant">
+            <strong>Claimed by:</strong> {item.claimRequestedBy?.name || 'A user'}
+            {item.claimContactNumber && <> — <strong>Contact:</strong> {item.claimContactNumber}</>}
+          </div>
+        )}
 
         <div className="meta-row">
           <span>{item.location}</span>
@@ -83,7 +93,7 @@ export default function ItemCard({ item, onRecover, onDelete, onClaim }) {
               Delete
             </button>
           )}
-          {onClaim && (
+          {onClaim && item.claimStatus !== 'pending' && item.claimStatus !== 'approved' && (
             <button className="btn-primary" type="button" onClick={() => setShowClaimForm((prev) => !prev)}>
               Claim Item
             </button>
