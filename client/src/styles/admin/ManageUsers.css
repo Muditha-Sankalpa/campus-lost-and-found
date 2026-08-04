@@ -16,22 +16,22 @@
 }
 
 .mu-btn--primary {
-  background: var(--color-purple-700);
+  background: var(--admin-crimson-700);
   color: var(--color-white);
 }
 
 .mu-btn--primary:hover:not(:disabled) {
-  background: var(--color-purple-900);
+  background: var(--admin-crimson-900);
 }
 
 .mu-btn--ghost {
   background: transparent;
-  color: var(--color-purple-700);
-  border-color: var(--color-purple-300);
+  color: var(--admin-crimson-700);
+  border-color: var(--admin-crimson-300);
 }
 
 .mu-btn--ghost:hover:not(:disabled) {
-  background: var(--color-purple-100);
+  background: var(--admin-crimson-100);
 }
 
 .mu-btn--danger {
@@ -82,7 +82,7 @@
 
 .mu-search input:focus {
   outline: none;
-  border-color: var(--color-purple-500);
+  border-color: var(--admin-crimson-500);
 }
 
 .mu-filters {
@@ -104,14 +104,14 @@
 }
 
 .mu-chip:hover {
-  border-color: var(--color-purple-500);
-  color: var(--color-purple-700);
+  border-color: var(--admin-crimson-500);
+  color: var(--admin-crimson-700);
 }
 
 .mu-chip--active {
-  background: var(--color-purple-700);
+  background: var(--admin-crimson-700);
   color: var(--color-white);
-  border-color: var(--color-purple-700);
+  border-color: var(--admin-crimson-700);
 }
 
 /* --- Table --- */
@@ -129,15 +129,15 @@
 }
 
 .mu-table th {
-  background: var(--color-purple-100);
-  color: var(--color-purple-900);
+  background: var(--admin-crimson-100);
+  color: var(--admin-crimson-900);
   text-align: left;
   padding: 14px 16px;
   font-weight: 700;
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  border-bottom: 2px solid var(--color-purple-300);
+  border-bottom: 2px solid var(--admin-crimson-300);
   white-space: nowrap;
 }
 
@@ -166,7 +166,7 @@
 .mu-you {
   font-size: 0.65rem;
   background: var(--color-gold);
-  color: var(--color-purple-900);
+  color: var(--admin-crimson-900);
   padding: 2px 8px;
   border-radius: 10px;
   font-weight: 700;
@@ -201,7 +201,7 @@
 
 .mu-role:focus {
   outline: none;
-  border-color: var(--color-purple-500);
+  border-color: var(--admin-crimson-500);
 }
 
 .mu-role:disabled {
@@ -215,7 +215,7 @@
 }
 
 .mu-role--moderator {
-  color: var(--color-purple-700);
+  color: var(--admin-crimson-700);
 }
 
 .mu-role--student {

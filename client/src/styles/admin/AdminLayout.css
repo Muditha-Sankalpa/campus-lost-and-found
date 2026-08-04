@@ -3,12 +3,19 @@
   grid-template-columns: 260px 1fr;
   min-height: 100vh;
   background: var(--color-bg-alt);
+
+  /* --- Admin theme: Crimson & Gold --- */
+  --admin-crimson-900: #4a0d18;
+  --admin-crimson-700: #7d1228;
+  --admin-crimson-500: #a81f3d;
+  --admin-crimson-300: #d98a9c;
+  --admin-crimson-100: #f7e1e6;
 }
 
 /* --- Sidebar --- */
 .admin-sidebar {
-  background: linear-gradient(180deg, var(--color-purple-900) 0%, var(--color-purple-700) 100%);
-  color: var(--color-purple-100);
+  background: linear-gradient(180deg, var(--admin-crimson-900) 0%, var(--admin-crimson-700) 100%);
+  color: var(--admin-crimson-100);
   display: flex;
   flex-direction: column;
   padding: var(--space-md) 0;
@@ -31,7 +38,7 @@
   width: fit-content;
   padding: 4px 10px;
   background: var(--color-gold);
-  color: var(--color-purple-900);
+  color: var(--admin-crimson-900);
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.15em;
@@ -57,7 +64,7 @@
   align-items: center;
   gap: 12px;
   padding: 12px var(--space-md);
-  color: var(--color-purple-100);
+  color: var(--admin-crimson-100);
   font-size: 0.95rem;
   font-weight: 500;
   border-left: 3px solid transparent;
@@ -113,7 +120,7 @@
 
 .admin-sidebar__hint {
   font-size: 0.75rem;
-  color: var(--color-purple-300);
+  color: var(--admin-crimson-300);
   margin: 0;
   text-align: center;
 }

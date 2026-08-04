@@ -44,7 +44,7 @@
 }
 
 .al-item__role {
-  color: var(--color-purple-500);
+  color: var(--admin-crimson-500);
   font-weight: 600;
   font-size: 0.85rem;
 }
@@ -66,8 +66,8 @@
 }
 
 .al-badge--purple {
-  background: var(--color-purple-100);
-  color: var(--color-purple-900);
+  background: var(--admin-crimson-100);
+  color: var(--admin-crimson-900);
 }
 
 .al-badge--success {
@@ -117,8 +117,8 @@
 .al-btn {
   padding: 8px 16px;
   background: transparent;
-  color: var(--color-purple-700);
-  border: 1px solid var(--color-purple-300);
+  color: var(--admin-crimson-700);
+  border: 1px solid var(--admin-crimson-300);
   border-radius: var(--radius-sm);
   font-weight: 600;
   font-size: 0.85rem;
@@ -127,7 +127,7 @@
 }
 
 .al-btn:hover:not(:disabled) {
-  background: var(--color-purple-100);
+  background: var(--admin-crimson-100);
 }
 
 .al-btn:disabled {

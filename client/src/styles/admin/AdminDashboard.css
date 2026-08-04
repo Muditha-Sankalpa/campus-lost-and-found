@@ -29,7 +29,7 @@
 
 .admin-dashboard__title {
   font-size: 2rem;
-  color: var(--color-purple-900);
+  color: var(--admin-crimson-900);
   margin: 0;
 }
 
@@ -53,7 +53,7 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  border-top: 3px solid var(--color-purple-500);
+  border-top: 3px solid var(--admin-crimson-500);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
@@ -73,7 +73,7 @@
 .stat-card__value {
   font-family: var(--font-display);
   font-size: 2.4rem;
-  color: var(--color-purple-900);
+  color: var(--admin-crimson-900);
   font-weight: 700;
   line-height: 1;
 }
@@ -107,7 +107,7 @@
 
 .panel__title {
   font-size: 1.1rem;
-  color: var(--color-purple-900);
+  color: var(--admin-crimson-900);
 }
 
 .panel__hint {
@@ -118,14 +118,14 @@
 }
 
 .panel__hint--link {
-  color: var(--color-purple-700);
+  color: var(--admin-crimson-700);
   text-decoration: none;
   cursor: pointer;
   font-weight: 700;
 }
 
 .panel__hint--link:hover {
-  color: var(--color-purple-900);
+  color: var(--admin-crimson-900);
 }
 
 .activity-list {
@@ -150,7 +150,7 @@
 }
 
 .activity-item__time {
-  color: var(--color-purple-500);
+  color: var(--admin-crimson-500);
   font-weight: 600;
   min-width: 60px;
   font-size: 0.8rem;
@@ -169,8 +169,8 @@
 
 .quick-action {
   padding: 12px var(--space-sm);
-  background: var(--color-purple-100);
-  color: var(--color-purple-900);
+  background: var(--admin-crimson-100);
+  color: var(--admin-crimson-900);
   border-radius: var(--radius-sm);
   font-weight: 600;
   font-size: 0.9rem;
@@ -181,7 +181,7 @@
 }
 
 .quick-action:hover {
-  background: var(--color-purple-300);
+  background: var(--admin-crimson-300);
   color: var(--color-white);
   transform: translateX(4px);
 }
