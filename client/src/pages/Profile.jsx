@@ -5,6 +5,7 @@ import "../styles/Auth.css";
 function Profile() {
   const { user, updateProfile, loadUser } = useContext(AuthContext);
   const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
   const [bio, setBio] = useState("");
   const [message, setMessage] = useState(null);
@@ -12,6 +13,7 @@ function Profile() {
   useEffect(() => {
     if (user) {
       setName(user.name || "");
+      setPhone(user.phone || "");
       setAvatarUrl((user.profile && user.profile.avatarUrl) || "");
       setBio((user.profile && user.profile.bio) || "");
     }
@@ -19,7 +21,7 @@ function Profile() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await updateProfile({ name, profile: { avatarUrl, bio } });
+    const res = await updateProfile({ name, phone, profile: { avatarUrl, bio } });
     if (res.ok) {
       setMessage('Profile updated');
       await loadUser();
@@ -50,6 +52,11 @@ function Profile() {
           <div className="form-group">
             <label>Full name</label>
             <input value={name} onChange={(e) => setName(e.target.value)} required />
+          </div>
+
+          <div className="form-group">
+            <label>Phone number</label>
+            <input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="Shared with a claimant once your item claim is approved" />
           </div>
 
           <div className="form-group">

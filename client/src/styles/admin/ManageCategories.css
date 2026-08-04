@@ -15,22 +15,22 @@
 }
 
 .mc-btn--primary {
-  background: var(--color-purple-700);
+  background: var(--admin-crimson-700);
   color: var(--color-white);
 }
 
 .mc-btn--primary:hover:not(:disabled) {
-  background: var(--color-purple-900);
+  background: var(--admin-crimson-900);
 }
 
 .mc-btn--ghost {
   background: transparent;
-  color: var(--color-purple-700);
-  border-color: var(--color-purple-300);
+  color: var(--admin-crimson-700);
+  border-color: var(--admin-crimson-300);
 }
 
 .mc-btn--ghost:hover:not(:disabled) {
-  background: var(--color-purple-100);
+  background: var(--admin-crimson-100);
 }
 
 .mc-btn--warning {
@@ -74,7 +74,7 @@
 }
 
 .mc-form__title {
-  color: var(--color-purple-900);
+  color: var(--admin-crimson-900);
   font-size: 1.2rem;
   margin: 0;
 }
@@ -107,7 +107,7 @@
 .mc-form__group input:focus,
 .mc-form__group textarea:focus {
   outline: none;
-  border-color: var(--color-purple-500);
+  border-color: var(--admin-crimson-500);
 }
 
 .mc-form__group textarea {
@@ -136,7 +136,7 @@
 
 .mc-icon-btn {
   padding: 6px 10px;
-  background: var(--color-purple-100);
+  background: var(--admin-crimson-100);
   border: 1px solid transparent;
   border-radius: var(--radius-sm);
   font-size: 1.1rem;
@@ -145,8 +145,8 @@
 }
 
 .mc-icon-btn:hover {
-  background: var(--color-purple-300);
-  border-color: var(--color-purple-500);
+  background: var(--admin-crimson-300);
+  border-color: var(--admin-crimson-500);
 }
 
 .mc-form__actions {
@@ -175,14 +175,14 @@
 }
 
 .mc-chip:hover {
-  border-color: var(--color-purple-500);
-  color: var(--color-purple-700);
+  border-color: var(--admin-crimson-500);
+  color: var(--admin-crimson-700);
 }
 
 .mc-chip--active {
-  background: var(--color-purple-700);
+  background: var(--admin-crimson-700);
   color: var(--color-white);
-  border-color: var(--color-purple-700);
+  border-color: var(--admin-crimson-700);
 }
 
 /* --- Grid + cards --- */
@@ -220,7 +220,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-purple-100);
+  background: var(--admin-crimson-100);
   border-radius: var(--radius-sm);
   flex-shrink: 0;
 }
@@ -241,7 +241,7 @@
 }
 
 .mc-card__name {
-  color: var(--color-purple-900);
+  color: var(--admin-crimson-900);
   font-size: 1.05rem;
   margin: 0;
 }

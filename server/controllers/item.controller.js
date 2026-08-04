@@ -116,10 +116,31 @@ exports.myItems = async (req, res) => {
       ];
     }
 
-    const items = await Item.find(filter).sort({ createdAt: -1 });
+    const items = await Item.find(filter).sort({ createdAt: -1 }).populate('claimRequestedBy', 'name studentId');
     return res.json({ items });
   } catch (err) {
     console.error('My items error:', err);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
+exports.myClaims = async (req, res) => {
+  try {
+    const items = await Item.find({ claimRequestedBy: req.userId })
+      .sort({ createdAt: -1 })
+      .populate('reportedBy', 'name studentId phone');
+
+    const sanitized = items.map((doc) => {
+      const item = doc.toObject();
+      if (item.claimStatus !== 'approved' && item.reportedBy) {
+        delete item.reportedBy.phone;
+      }
+      return item;
+    });
+
+    return res.json({ items: sanitized });
+  } catch (err) {
+    console.error('My claims error:', err);
     return res.status(500).json({ message: 'Server error' });
   }
 };

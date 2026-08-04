@@ -1,21 +1,14 @@
-.admin-layout {
+.moderator-layout {
   display: grid;
   grid-template-columns: 260px 1fr;
   min-height: 100vh;
   background: var(--color-bg-alt);
-
-  /* --- Admin theme: Crimson & Gold --- */
-  --admin-crimson-900: #4a0d18;
-  --admin-crimson-700: #7d1228;
-  --admin-crimson-500: #a81f3d;
-  --admin-crimson-300: #d98a9c;
-  --admin-crimson-100: #f7e1e6;
 }
 
 /* --- Sidebar --- */
-.admin-sidebar {
-  background: linear-gradient(180deg, var(--admin-crimson-900) 0%, var(--admin-crimson-700) 100%);
-  color: var(--admin-crimson-100);
+.moderator-sidebar {
+  background: linear-gradient(180deg, #0f5132 0%, #146c43 100%);
+  color: #d1f5df;
   display: flex;
   flex-direction: column;
   padding: var(--space-md) 0;
@@ -25,7 +18,7 @@
   overflow-y: auto;
 }
 
-.admin-sidebar__header {
+.moderator-sidebar__header {
   padding: 0 var(--space-md) var(--space-md);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
@@ -33,62 +26,62 @@
   gap: 4px;
 }
 
-.admin-sidebar__badge {
+.moderator-sidebar__badge {
   display: inline-block;
   width: fit-content;
   padding: 4px 10px;
   background: var(--color-gold);
-  color: var(--admin-crimson-900);
+  color: #0f5132;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.15em;
   border-radius: var(--radius-sm);
 }
 
-.admin-sidebar__subtitle {
+.moderator-sidebar__subtitle {
   color: var(--color-white);
   font-family: var(--font-display);
   font-size: 1.1rem;
   margin-top: 6px;
 }
 
-.admin-sidebar__nav {
+.moderator-sidebar__nav {
   display: flex;
   flex-direction: column;
   padding: var(--space-sm) 0;
   gap: 2px;
 }
 
-.admin-sidebar__link {
+.moderator-sidebar__link {
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 12px var(--space-md);
-  color: var(--admin-crimson-100);
+  color: #d1f5df;
   font-size: 0.95rem;
   font-weight: 500;
   border-left: 3px solid transparent;
   transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 
-.admin-sidebar__link:hover {
+.moderator-sidebar__link:hover {
   background: rgba(255, 255, 255, 0.05);
   color: var(--color-white);
 }
 
-.admin-sidebar__link--active {
+.moderator-sidebar__link--active {
   background: rgba(255, 255, 255, 0.1);
   color: var(--color-white);
   border-left-color: var(--color-gold);
 }
 
-.admin-sidebar__icon {
+.moderator-sidebar__icon {
   font-size: 1rem;
   width: 20px;
   text-align: center;
 }
 
-.admin-sidebar__footer {
+.moderator-sidebar__footer {
   margin-top: auto;
   padding: var(--space-md);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -97,7 +90,7 @@
   gap: var(--space-xs);
 }
 
-.admin-sidebar__logout {
+.moderator-sidebar__logout {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -113,54 +106,54 @@
   transition: background 0.15s ease, border-color 0.15s ease;
 }
 
-.admin-sidebar__logout:hover {
+.moderator-sidebar__logout:hover {
   background: rgba(220, 60, 60, 0.25);
   border-color: rgba(220, 60, 60, 0.4);
 }
 
-.admin-sidebar__hint {
+.moderator-sidebar__hint {
   font-size: 0.75rem;
-  color: var(--admin-crimson-300);
+  color: #a7ecc0;
   margin: 0;
   text-align: center;
 }
 
 /* --- Main content --- */
-.admin-main {
+.moderator-main {
   padding: var(--space-lg);
   overflow-x: auto;
 }
 
 /* --- Responsive --- */
 @media (max-width: 768px) {
-  .admin-layout {
+  .moderator-layout {
     grid-template-columns: 1fr;
   }
 
-  .admin-sidebar {
+  .moderator-sidebar {
     position: static;
     height: auto;
     padding: var(--space-sm) 0;
   }
 
-  .admin-sidebar__nav {
+  .moderator-sidebar__nav {
     flex-direction: row;
     overflow-x: auto;
     padding: var(--space-xs) var(--space-sm);
   }
 
-  .admin-sidebar__link {
+  .moderator-sidebar__link {
     border-left: none;
     border-bottom: 3px solid transparent;
     white-space: nowrap;
   }
 
-  .admin-sidebar__link--active {
+  .moderator-sidebar__link--active {
     border-left: none;
     border-bottom-color: var(--color-gold);
   }
 
-  .admin-sidebar__footer {
+  .moderator-sidebar__footer {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -168,11 +161,11 @@
     gap: var(--space-sm);
   }
 
-  .admin-sidebar__logout {
+  .moderator-sidebar__logout {
     width: auto;
   }
 
-  .admin-main {
+  .moderator-main {
     padding: var(--space-md);
   }
 }

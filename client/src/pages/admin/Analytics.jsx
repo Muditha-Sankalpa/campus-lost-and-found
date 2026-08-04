@@ -21,13 +21,13 @@ import "../../styles/admin/AdminPage.css";
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
 const ROLE_COLORS = {
-  student: "#6b3aa0",
+  student: "#a81f3d",
   moderator: "#c9a227",
-  admin: "#2e1148",
+  admin: "#4a0d18",
 };
 
 const TYPE_COLORS = {
-  info: "#6b3aa0",
+  info: "#a81f3d",
   warning: "#d59f2b",
   urgent: "#b02525",
 };
@@ -118,7 +118,7 @@ function Analytics() {
                 <Tooltip />
                 <Bar dataKey="count" radius={[6, 6, 0, 0]}>
                   {data.announcementsByType.map((entry) => (
-                    <Cell key={entry.type} fill={TYPE_COLORS[entry.type] || "#6b3aa0"} />
+                    <Cell key={entry.type} fill={TYPE_COLORS[entry.type] || "#a81f3d"} />
                   ))}
                 </Bar>
               </BarChart>
@@ -139,7 +139,7 @@ function Analytics() {
               <Line
                 type="monotone"
                 dataKey="signups"
-                stroke="#4b1e73"
+                stroke="#7d1228"
                 strokeWidth={3}
                 dot={{ fill: "#c9a227", r: 4 }}
                 activeDot={{ r: 6 }}

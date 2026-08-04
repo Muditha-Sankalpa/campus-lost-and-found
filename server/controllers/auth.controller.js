@@ -100,9 +100,10 @@ exports.me = async (req, res) => {
 exports.updateProfile = async (req, res) => {
   try {
     const updates = {};
-    const { name, profile } = req.body;
+    const { name, profile, phone } = req.body;
     if (name) updates.name = name;
     if (profile) updates.profile = profile;
+    if (phone !== undefined) updates.phone = phone;
 
     const user = await User.findByIdAndUpdate(req.userId, { $set: updates }, { new: true }).select('-password');
     if (!user) return res.status(404).json({ message: 'User not found.' });

@@ -17,14 +17,15 @@ function Navbar() {
     { label: "Browse", path: "/browse" },
     { label: "Report", path: "/report" },
     { label: "My Items", path: "/myitems" },
+    { label: "My Claims", path: "/myclaims" },
   ];
 
-  const isModerator = user?.role === "moderator";
+  const isStaff = user?.role === "moderator" || user?.role === "admin";
 
   const links = !user
     ? publicLinks
-    : isModerator
-      ? [{ label: "Dashboard", path: "/" }]
+    : isStaff
+      ? publicLinks
       : [...publicLinks, ...authedLinks];
 
   const handleLogout = async () => {
@@ -61,7 +62,7 @@ function Navbar() {
                 Profile
               </NavLink>
             </li>
-            {user.role === "admin" && (
+            {(user.role === "admin" || user.role === "moderator") && (
               <li className="navbar__item">
                 <NavLink to="/moderator" className="navbar__link">Moderator</NavLink>
               </li>

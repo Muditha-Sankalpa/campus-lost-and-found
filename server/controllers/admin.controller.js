@@ -3,11 +3,12 @@ const { buildModeratorDashboardSummary } = require('../utils/moderation');
 
 exports.getModeratorDashboard = async (req, res) => {
   try {
-    const [pendingItems, pendingClaims, rejectedReports, approvedItems, stats] = await Promise.all([
+    const [pendingItems, pendingClaims, rejectedReports, approvedItems, recoveredItems, stats] = await Promise.all([
       Item.find({ moderationStatus: 'pending' }).sort({ createdAt: -1 }).populate('reportedBy', 'name studentId email'),
-      Item.find({ claimStatus: 'pending' }).sort({ createdAt: -1 }).populate('claimRequestedBy', 'name studentId email'),
+      Item.find({ claimStatus: 'pending' }).sort({ createdAt: -1 }).populate('reportedBy', 'name studentId email').populate('claimRequestedBy', 'name studentId email'),
       Item.find({ moderationStatus: 'rejected' }).sort({ createdAt: -1 }).populate('reportedBy', 'name studentId email'),
       Item.find({ moderationStatus: 'approved' }).sort({ createdAt: -1 }).populate('reportedBy', 'name studentId email'),
+      Item.find({ status: 'recovered' }).sort({ createdAt: -1 }).populate('reportedBy', 'name studentId email').populate('claimRequestedBy', 'name studentId email'),
       Item.aggregate([
         {
           $group: {
@@ -27,6 +28,7 @@ exports.getModeratorDashboard = async (req, res) => {
       pendingClaims,
       rejectedReports,
       approvedItems,
+      recoveredItems,
       stats: stats[0] || { totalItems: 0, pendingItems: 0, approvedItems: 0, recoveredItems: 0, rejectedItems: 0 }
     });
 
@@ -250,6 +252,9 @@ exports.getDashboardOverview = async (req, res) => {
       totalAnnouncements,
       activeAnnouncements,
       recentActivity,
+      totalItems,
+      recoveredItems,
+      pendingReviews,
     ] = await Promise.all([
       User.countDocuments(),
       User.countDocuments({ createdAt: { $gte: sevenDaysAgo } }),
@@ -263,6 +268,9 @@ exports.getDashboardOverview = async (req, res) => {
         .populate("actor", "name email")
         .sort({ createdAt: -1 })
         .limit(10),
+      Item.countDocuments(),
+      Item.countDocuments({ status: "recovered" }),
+      Item.countDocuments({ moderationStatus: "pending" }),
     ]);
 
     return res.json({
@@ -272,9 +280,9 @@ exports.getDashboardOverview = async (req, res) => {
         suspendedUsers,
         totalAnnouncements,
         activeAnnouncements,
-        totalItems: null,
-        recoveredItems: null,
-        pendingReviews: null,
+        totalItems,
+        recoveredItems,
+        pendingReviews,
       },
       recentActivity,
     });
