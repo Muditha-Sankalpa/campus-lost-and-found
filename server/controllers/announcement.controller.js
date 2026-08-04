@@ -1,6 +1,14 @@
 const Announcement = require("../models/Announcement");
+const ActivityLog = require("../models/ActivityLog");
 
-// GET /api/announcements — public: fetch active announcements
+async function logActivity(actor, action, targetType, targetId, metadata = {}) {
+  try {
+    await ActivityLog.create({ actor, action, targetType, targetId, metadata });
+  } catch (err) {
+    console.error("Failed to log activity:", err);
+  }
+}
+
 exports.getActiveAnnouncements = async (req, res) => {
   try {
     const now = new Date();
@@ -10,7 +18,6 @@ exports.getActiveAnnouncements = async (req, res) => {
     })
       .sort({ createdAt: -1 })
       .limit(10);
-
     return res.json({ announcements });
   } catch (err) {
     console.error("getActiveAnnouncements error:", err);
@@ -18,7 +25,6 @@ exports.getActiveAnnouncements = async (req, res) => {
   }
 };
 
-// GET /api/admin/announcements — admin: fetch all (including unpublished/expired)
 exports.getAllAnnouncements = async (req, res) => {
   try {
     const announcements = await Announcement.find()
@@ -31,15 +37,12 @@ exports.getAllAnnouncements = async (req, res) => {
   }
 };
 
-// POST /api/admin/announcements — admin: create
 exports.createAnnouncement = async (req, res) => {
   try {
     const { title, body, type, isPublished, expiresAt } = req.body;
-
     if (!title || !body) {
       return res.status(400).json({ message: "Title and body are required." });
     }
-
     const announcement = new Announcement({
       title,
       body,
@@ -48,8 +51,13 @@ exports.createAnnouncement = async (req, res) => {
       expiresAt: expiresAt || null,
       createdBy: req.userId,
     });
-
     await announcement.save();
+
+    await logActivity(req.userId, "announcement.created", "Announcement", announcement._id, {
+      title: announcement.title,
+      type: announcement.type,
+    });
+
     return res.status(201).json({ announcement });
   } catch (err) {
     console.error("createAnnouncement error:", err);
@@ -57,12 +65,10 @@ exports.createAnnouncement = async (req, res) => {
   }
 };
 
-// PATCH /api/admin/announcements/:id — admin: update
 exports.updateAnnouncement = async (req, res) => {
   try {
     const { id } = req.params;
     const { title, body, type, isPublished, expiresAt } = req.body;
-
     const updates = {};
     if (title !== undefined) updates.title = title;
     if (body !== undefined) updates.body = body;
@@ -75,10 +81,11 @@ exports.updateAnnouncement = async (req, res) => {
       { $set: updates },
       { new: true, runValidators: true }
     );
+    if (!announcement) return res.status(404).json({ message: "Announcement not found." });
 
-    if (!announcement) {
-      return res.status(404).json({ message: "Announcement not found." });
-    }
+    await logActivity(req.userId, "announcement.updated", "Announcement", announcement._id, {
+      title: announcement.title,
+    });
 
     return res.json({ announcement });
   } catch (err) {
@@ -87,15 +94,15 @@ exports.updateAnnouncement = async (req, res) => {
   }
 };
 
-// DELETE /api/admin/announcements/:id — admin: delete
 exports.deleteAnnouncement = async (req, res) => {
   try {
     const { id } = req.params;
     const announcement = await Announcement.findByIdAndDelete(id);
+    if (!announcement) return res.status(404).json({ message: "Announcement not found." });
 
-    if (!announcement) {
-      return res.status(404).json({ message: "Announcement not found." });
-    }
+    await logActivity(req.userId, "announcement.deleted", "Announcement", announcement._id, {
+      title: announcement.title,
+    });
 
     return res.json({ message: "Announcement deleted." });
   } catch (err) {
