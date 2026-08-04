@@ -20,11 +20,11 @@ function Navbar() {
     { label: "My Claims", path: "/myclaims" },
   ];
 
-  const isModerator = user?.role === "moderator";
+  const isStaff = user?.role === "moderator" || user?.role === "admin";
 
   const links = !user
     ? publicLinks
-    : isModerator
+    : isStaff
       ? publicLinks
       : [...publicLinks, ...authedLinks];
 
