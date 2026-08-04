@@ -1,9 +1,42 @@
 const Item = require('../models/Item');
 
+const normalizeStatus = (status) => {
+  const value = (status || 'lost').toString().trim().toLowerCase();
+  if (['lost', 'found', 'recovered'].includes(value)) return value;
+  return 'lost';
+};
+
+const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+const buildItemFilter = (query = {}, defaultModeration = 'approved') => {
+  const filter = {};
+  const { category, status, q, location, moderation } = query;
+
+  if (category) filter.category = new RegExp(escapeRegex(category), 'i');
+  if (status) filter.status = normalizeStatus(status);
+  if (location) filter.location = new RegExp(escapeRegex(location), 'i');
+  if (q) {
+    filter.$or = [
+      { title: new RegExp(escapeRegex(q), 'i') },
+      { description: new RegExp(escapeRegex(q), 'i') },
+      { category: new RegExp(escapeRegex(q), 'i') },
+      { location: new RegExp(escapeRegex(q), 'i') }
+    ];
+  }
+
+  if (moderation && moderation !== 'all') {
+    filter.moderationStatus = moderation;
+  } else if (defaultModeration) {
+    filter.moderationStatus = defaultModeration;
+  }
+
+  return filter;
+};
+
 exports.createItem = async (req, res) => {
   try {
     const { title, description, category, location, status } = req.body;
-    const images = (req.files || []).map(f => `/uploads/${f.filename}`);
+    const images = (req.files || []).map((file) => `/uploads/${file.filename}`);
 
     if (!title) return res.status(400).json({ message: 'Title is required' });
 
@@ -12,7 +45,7 @@ exports.createItem = async (req, res) => {
       description,
       category,
       location,
-      status: status || 'lost',
+      status: normalizeStatus(status),
       images,
       reportedBy: req.userId,
       moderationStatus: 'pending'
@@ -39,16 +72,7 @@ exports.getItem = async (req, res) => {
 
 exports.listItems = async (req, res) => {
   try {
-    // filters: category, status, q (search), moderationStatus
-    const { category, status, q, moderation } = req.query;
-    const filter = {};
-    if (category) filter.category = category;
-    if (status) filter.status = status;
-    if (q) filter.$or = [ { title: new RegExp(q, 'i') }, { description: new RegExp(q, 'i') } ];
-    // By default show only approved items
-    if (moderation) filter.moderationStatus = moderation;
-    else filter.moderationStatus = 'approved';
-
+    const filter = buildItemFilter(req.query, 'approved');
     const items = await Item.find(filter).sort({ createdAt: -1 }).populate('reportedBy', 'name');
     return res.json({ items });
   } catch (err) {
@@ -57,12 +81,83 @@ exports.listItems = async (req, res) => {
   }
 };
 
+exports.searchItems = async (req, res) => {
+  try {
+    const filter = buildItemFilter(req.query, 'approved');
+    const items = await Item.find(filter).sort({ createdAt: -1 }).populate('reportedBy', 'name');
+    return res.json({ items });
+  } catch (err) {
+    console.error('Search items error:', err);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
 exports.myItems = async (req, res) => {
   try {
-    const items = await Item.find({ reportedBy: req.userId }).sort({ createdAt: -1 });
+    const filter = { reportedBy: req.userId };
+    const { moderation, status, q, category, location } = req.query;
+
+    if (moderation && moderation !== 'all') {
+      if (moderation === 'recovered') {
+        filter.status = 'recovered';
+      } else {
+        filter.moderationStatus = moderation;
+      }
+    }
+    if (status) filter.status = normalizeStatus(status);
+    if (category) filter.category = new RegExp(escapeRegex(category), 'i');
+    if (location) filter.location = new RegExp(escapeRegex(location), 'i');
+    if (q) {
+      filter.$or = [
+        { title: new RegExp(escapeRegex(q), 'i') },
+        { description: new RegExp(escapeRegex(q), 'i') },
+        { category: new RegExp(escapeRegex(q), 'i') },
+        { location: new RegExp(escapeRegex(q), 'i') }
+      ];
+    }
+
+    const items = await Item.find(filter).sort({ createdAt: -1 });
     return res.json({ items });
   } catch (err) {
     console.error('My items error:', err);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
+exports.submitClaim = async (req, res) => {
+  try {
+    const item = await Item.findById(req.params.id);
+    if (!item) return res.status(404).json({ message: 'Item not found' });
+
+    const { claimDescription, claimProof, claimContactNumber } = req.body;
+    if (!claimDescription || !claimProof || !claimContactNumber) {
+      return res.status(400).json({ message: 'Please provide a description, proof, and contact number.' });
+    }
+
+    const claimPhoto = req.file ? `/uploads/${req.file.filename}` : undefined;
+
+    const updated = await Item.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          claimStatus: 'pending',
+          claimDescription,
+          claimProof,
+          claimPhoto: claimPhoto || item.claimPhoto,
+          claimContactNumber,
+          claimRequestedBy: req.userId,
+          claimRequestedAt: new Date(),
+          claimReviewedBy: null,
+          claimReviewedAt: null,
+          claimReviewReason: null,
+        }
+      },
+      { new: true }
+    ).populate('reportedBy', 'name studentId email').populate('claimRequestedBy', 'name studentId email');
+
+    return res.json({ item: updated });
+  } catch (err) {
+    console.error('Submit claim error:', err);
     return res.status(500).json({ message: 'Server error' });
   }
 };
@@ -72,17 +167,26 @@ exports.updateItem = async (req, res) => {
     const item = await Item.findById(req.params.id);
     if (!item) return res.status(404).json({ message: 'Item not found' });
 
-    // allow owner or moderators/admins (controller assumes role middleware will protect where necessary)
     if (String(item.reportedBy) !== String(req.userId) && req.user.role !== 'moderator' && req.user.role !== 'admin') {
       return res.status(403).json({ message: 'Forbidden' });
     }
 
-    const updates = { ...req.body };
+    const updates = {};
+    const allowedFields = ['title', 'description', 'category', 'location', 'status', 'moderationStatus'];
+
+    allowedFields.forEach((field) => {
+      if (req.body[field] !== undefined) updates[field] = field === 'status' ? normalizeStatus(req.body[field]) : req.body[field];
+    });
+
     if (req.files && req.files.length) {
-      updates.images = (req.files || []).map(f => `/uploads/${f.filename}`);
+      updates.images = (req.files || []).map((file) => `/uploads/${file.filename}`);
     }
 
-    const updated = await Item.findByIdAndUpdate(req.params.id, { $set: updates }, { new: true });
+    if (updates.status === 'recovered') {
+      updates.moderationStatus = 'approved';
+    }
+
+    const updated = await Item.findByIdAndUpdate(req.params.id, { $set: updates }, { new: true }).populate('reportedBy', 'name');
     return res.json({ item: updated });
   } catch (err) {
     console.error('Update item error:', err);

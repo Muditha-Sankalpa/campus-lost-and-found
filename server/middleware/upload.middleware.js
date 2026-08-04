@@ -10,12 +10,25 @@ const storage = multer.diskStorage({
     cb(null, uploadsDir);
   },
   filename: function (req, file, cb) {
-    const ext = path.extname(file.originalname);
+    const ext = path.extname(file.originalname).toLowerCase();
     const name = `${Date.now()}-${Math.random().toString(36).substring(2,8)}${ext}`;
     cb(null, name);
   },
 });
 
-const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } }); // 5MB per file
+const fileFilter = (req, file, cb) => {
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+  if (allowedTypes.includes(file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(new Error('Only JPEG, PNG, WebP, and GIF images are allowed.'));
+  }
+};
+
+const upload = multer({
+  storage,
+  fileFilter,
+  limits: { fileSize: 5 * 1024 * 1024 }
+});
 
 module.exports = upload;

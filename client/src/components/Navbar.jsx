@@ -55,6 +55,9 @@ function Navbar() {
                 Profile
               </NavLink>
             </li>
+            {(user.role === 'moderator' || user.role === 'admin') && (
+              <li className="navbar__item">
+                <NavLink to="/moderator" className="navbar__link">Moderator</NavLink>
 
             {user.role === "admin" && (
               <li className="navbar__item">
