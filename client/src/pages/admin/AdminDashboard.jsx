@@ -87,8 +87,8 @@ function AdminDashboard() {
     },
     {
       label: "Items Reported",
-      value: stats.totalItems !== null ? stats.totalItems : "—",
-      trend: "Coming soon",
+      value: stats.totalItems,
+      trend: stats.pendingReviews > 0 ? `${stats.pendingReviews} pending review` : `${stats.recoveredItems} recovered`,
     },
   ];
 

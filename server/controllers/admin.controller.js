@@ -252,6 +252,9 @@ exports.getDashboardOverview = async (req, res) => {
       totalAnnouncements,
       activeAnnouncements,
       recentActivity,
+      totalItems,
+      recoveredItems,
+      pendingReviews,
     ] = await Promise.all([
       User.countDocuments(),
       User.countDocuments({ createdAt: { $gte: sevenDaysAgo } }),
@@ -265,6 +268,9 @@ exports.getDashboardOverview = async (req, res) => {
         .populate("actor", "name email")
         .sort({ createdAt: -1 })
         .limit(10),
+      Item.countDocuments(),
+      Item.countDocuments({ status: "recovered" }),
+      Item.countDocuments({ moderationStatus: "pending" }),
     ]);
 
     return res.json({
@@ -274,9 +280,9 @@ exports.getDashboardOverview = async (req, res) => {
         suspendedUsers,
         totalAnnouncements,
         activeAnnouncements,
-        totalItems: null,
-        recoveredItems: null,
-        pendingReviews: null,
+        totalItems,
+        recoveredItems,
+        pendingReviews,
       },
       recentActivity,
     });
