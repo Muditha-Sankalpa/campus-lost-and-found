@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import Hero from "../components/Hero";
 import AnnouncementBanner from "../components/AnnouncementBanner";
+import "../styles/Home.css";
 
 function Home() {
   const { user } = useContext(AuthContext);
@@ -17,7 +18,7 @@ function Home() {
   if (user?.role === "moderator") return null;
 
   return (
-    <div>
+    <div className="home">
       <AnnouncementBanner />
       <Hero />
     </div>

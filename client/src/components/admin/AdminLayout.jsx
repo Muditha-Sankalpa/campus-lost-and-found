@@ -11,6 +11,7 @@ function AdminLayout() {
     { path: "/admin", label: "Dashboard", icon: "▦", end: true },
     { path: "/admin/users", label: "Users", icon: "◉" },
     { path: "/admin/categories", label: "Categories", icon: "☰" },
+    { path: "/admin/messages", label: "Messages", icon: "✉" },
     { path: "/admin/announcements", label: "Announcements", icon: "◆" },
     { path: "/admin/analytics", label: "Analytics", icon: "▲" },
     { path: "/admin/activity", label: "Activity Logs", icon: "⏱" },

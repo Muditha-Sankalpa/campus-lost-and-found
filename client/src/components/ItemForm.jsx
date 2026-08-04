@@ -1,5 +1,7 @@
-import React, { useState, useContext } from 'react';
-import AuthContext from '../context/AuthProvider';
+import React, { useState, useEffect, useContext } from 'react';
+import AuthContext from '../context/AuthContext';
+
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
 export default function ItemForm({ onSuccess }) {
   const { token } = useContext(AuthContext);
@@ -11,6 +13,27 @@ export default function ItemForm({ onSuccess }) {
   const [images, setImages] = useState([]);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+
+  // Categories loaded from admin-managed list
+  const [categories, setCategories] = useState([]);
+  const [categoriesLoading, setCategoriesLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/api/categories`);
+        const data = await res.json();
+        if (res.ok) {
+          setCategories(data.categories || []);
+        }
+      } catch (err) {
+        console.error('Failed to load categories:', err);
+      } finally {
+        setCategoriesLoading(false);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   const handleFiles = (event) => setImages(Array.from(event.target.files));
 
@@ -28,7 +51,7 @@ export default function ItemForm({ onSuccess }) {
       form.append('status', status);
       images.forEach((file) => form.append('images', file));
 
-      const res = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000') + '/api/items', {
+      const res = await fetch(`${API_BASE}/api/items`, {
         method: 'POST',
         headers: token ? { Authorization: 'Bearer ' + token } : {},
         body: form,
@@ -58,18 +81,45 @@ export default function ItemForm({ onSuccess }) {
         <label>Title</label>
         <input value={title} onChange={(event) => setTitle(event.target.value)} required />
       </div>
+
       <div className="form-group">
         <label>Description</label>
         <textarea value={description} onChange={(event) => setDescription(event.target.value)} required rows={4} />
       </div>
+
       <div className="form-group">
         <label>Category</label>
-        <input value={category} onChange={(event) => setCategory(event.target.value)} placeholder="e.g. ID Card, Wallet" />
+        {categoriesLoading ? (
+          <select disabled>
+            <option>Loading categories…</option>
+          </select>
+        ) : categories.length === 0 ? (
+          <input
+            value={category}
+            onChange={(event) => setCategory(event.target.value)}
+            placeholder="e.g. ID Card, Wallet"
+          />
+        ) : (
+          <select
+            value={category}
+            onChange={(event) => setCategory(event.target.value)}
+            required
+          >
+            <option value="">Select a category</option>
+            {categories.map((cat) => (
+              <option key={cat._id} value={cat.name}>
+                {cat.icon ? `${cat.icon} ${cat.name}` : cat.name}
+              </option>
+            ))}
+          </select>
+        )}
       </div>
+
       <div className="form-group">
         <label>Location</label>
         <input value={location} onChange={(event) => setLocation(event.target.value)} placeholder="e.g. Library, Sports Centre" />
       </div>
+
       <div className="form-group">
         <label>Status</label>
         <select value={status} onChange={(event) => setStatus(event.target.value)}>
@@ -77,12 +127,15 @@ export default function ItemForm({ onSuccess }) {
           <option value="found">Found</option>
         </select>
       </div>
+
       <div className="form-group">
         <label>Images (optional)</label>
         <input type="file" multiple accept="image/*" onChange={handleFiles} />
       </div>
+
       {error && <div className="form__error">{error}</div>}
       {success && <div className="form__message">{success}</div>}
+
       <div className="auth-actions">
         <button className="btn-primary" type="submit">Submit report</button>
       </div>

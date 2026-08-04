@@ -22,11 +22,13 @@ const ActivityLogSchema = new mongoose.Schema(
         "category.updated",
         "category.deleted",
         "category.hard_deleted",
+        "contact.status_changed",
+        "contact.deleted",
       ],
     },
     targetType: {
       type: String,
-      enum: ["User", "Announcement", "Item", "Claim"],
+      enum: ["User", "Announcement", "Item", "Claim", "Category", "ContactMessage"],
     },
     targetId: {
       type: mongoose.Schema.Types.ObjectId,
