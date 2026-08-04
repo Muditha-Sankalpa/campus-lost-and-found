@@ -1,0 +1,213 @@
+.about {
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Hero --- */
+.about-hero {
+  background: radial-gradient(circle at 50% 0%, var(--color-purple-500) 0%, var(--color-purple-900) 65%);
+  padding: var(--space-xl) var(--space-lg);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  color: var(--color-white);
+}
+
+.about-hero__eyebrow {
+  color: var(--color-gold);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.about-hero__title {
+  color: var(--color-white);
+  font-size: 2.4rem;
+  line-height: 1.25;
+  margin: 0;
+  max-width: 640px;
+}
+
+.about-hero__subtitle {
+  color: var(--color-purple-100);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  max-width: 640px;
+  margin: 0;
+}
+
+/* --- Sections --- */
+.about-section {
+  padding: var(--space-xl) var(--space-lg);
+  background: var(--color-white);
+}
+
+.about-section--alt {
+  background: var(--color-bg-alt);
+}
+
+.about-section__inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.about-section__title {
+  font-size: 1.8rem;
+  color: var(--color-purple-900);
+  margin: 0 0 var(--space-md);
+  position: relative;
+  padding-bottom: 12px;
+}
+
+.about-section__title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: var(--color-gold);
+}
+
+.about-section__text {
+  color: var(--color-grey-900);
+  font-size: 1rem;
+  line-height: 1.7;
+  margin: 0 0 var(--space-sm);
+}
+
+/* --- How it works steps --- */
+.about-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+}
+
+.about-step {
+  background: var(--color-white);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.about-step:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.about-step__number {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--color-gold);
+  font-weight: 700;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.about-step__title {
+  color: var(--color-purple-900);
+  font-size: 1.1rem;
+  margin: 0 0 8px;
+}
+
+.about-step__text {
+  color: var(--color-grey-600);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* --- Values --- */
+.about-values {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+}
+
+.about-value {
+  padding: var(--space-md);
+  background: var(--color-purple-100);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+
+.about-value__icon {
+  font-size: 2.2rem;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.about-value__title {
+  color: var(--color-purple-900);
+  font-size: 1.05rem;
+  margin: 0 0 6px;
+}
+
+.about-value__text {
+  color: var(--color-grey-900);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* --- Team --- */
+.about-team {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+}
+
+.about-member {
+  background: var(--color-white);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  border-top: 3px solid var(--color-purple-500);
+}
+
+.about-member__id {
+  display: inline-block;
+  padding: 3px 10px;
+  background: var(--color-gold);
+  color: var(--color-purple-900);
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.about-member__name {
+  color: var(--color-purple-900);
+  font-size: 1rem;
+  margin: 0 0 4px;
+}
+
+.about-member__role {
+  color: var(--color-grey-600);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+/* --- Responsive --- */
+@media (max-width: 600px) {
+  .about-hero {
+    padding: var(--space-lg) var(--space-sm);
+  }
+  .about-hero__title {
+    font-size: 1.7rem;
+  }
+  .about-section {
+    padding: var(--space-lg) var(--space-sm);
+  }
+  .about-section__title {
+    font-size: 1.4rem;
+  }
+}
