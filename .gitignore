@@ -28,9 +28,6 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Uploaded files (item images stored locally during dev)
-server/uploads/
-
 # Misc
 *.local
 .cache/
